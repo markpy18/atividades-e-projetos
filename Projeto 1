@@ -1,0 +1,80 @@
+import tkinter as tk
+from tkinter import messagebox
+
+usuarios = {}
+
+def mostrar_login():
+    frame_cadastro.pack_forget()
+    frame_login.pack(fill="both", expand=True)
+
+def mostrar_cadastro():
+    frame_login.pack_forget()
+    frame_cadastro.pack(fill="both", expand=True)
+
+def cadastrar():
+    usuario = entrada_cad_usuario.get()
+    senha = entrada_cad_senha.get()
+
+    if usuario == "" or senha == "":
+        messagebox.showwarning("Erro", "Preencha todos os campos!")
+        return
+
+    if usuario in usuarios:
+        messagebox.showerror("Erro", "Usuário já existe!")
+    else:
+        usuarios[usuario] = senha
+        messagebox.showinfo("Sucesso", "Cadastro realizado!")
+        entrada_cad_usuario.delete(0, tk.END)
+        entrada_cad_senha.delete(0, tk.END)
+        mostrar_login()
+
+def fazer_login():
+    usuario = entrada_login_usuario.get()
+    senha = entrada_login_senha.get()
+
+    if usuario in usuarios and usuarios[usuario] == senha:
+        messagebox.showinfo("Sucesso", f"Bem-vindo, {usuario}!")
+    else:
+        messagebox.showerror("Erro", "Usuário ou senha incorretos!")
+
+janela = tk.Tk()
+janela.title("Sistema de Login")
+janela.geometry("1350x1250")
+
+frame_login = tk.Frame(janela)
+
+tk.Label(frame_login, text="LOGIN", font=("Arial", 16)).pack(pady=10)
+
+tk.Label(frame_login, text="Usuário").pack()
+entrada_login_usuario = tk.Entry(frame_login)
+entrada_login_usuario.pack()
+
+tk.Label(frame_login, text="Senha").pack()
+entrada_login_senha = tk.Entry(frame_login, show="*")
+entrada_login_senha.pack()
+
+tk.Button(frame_login, text="Entrar", command=fazer_login).pack(pady=10)
+
+tk.Button(frame_login, text="Criar conta", command=mostrar_cadastro).pack()
+
+
+frame_cadastro = tk.Frame(janela)
+
+tk.Label(frame_cadastro, text="CADASTRO", font=("Arial", 16)).pack(pady=10)
+
+tk.Label(frame_cadastro, text="Usuário").pack()
+entrada_cad_usuario = tk.Entry(frame_cadastro)
+entrada_cad_usuario.pack()
+
+tk.Label(frame_cadastro, text="Senha").pack()
+entrada_cad_senha = tk.Entry(frame_cadastro, show="*")
+entrada_cad_senha.pack()
+
+tk.Button(frame_cadastro, text="Cadastrar", command=cadastrar).pack(pady=10)
+
+tk.Button(frame_cadastro, text="Voltar para Login", command=mostrar_login).pack()
+
+# Começa mostrando a tela de login
+mostrar_login()
+
+janela.mainloop()
