@@ -74,7 +74,7 @@ tk.Button(frame_cadastro, text="Cadastrar", command=cadastrar).pack(pady=10)
 
 tk.Button(frame_cadastro, text="Voltar para Login", command=mostrar_login).pack()
 
-# Começa mostrando a tela de login
+
 mostrar_login()
 
 janela.mainloop()
